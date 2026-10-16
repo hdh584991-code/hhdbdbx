@@ -1,0 +1,16 @@
+name: build
+on: [push, workflow_dispatch]
+jobs:
+  b:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 9.0.x
+      - run: mkdir -p s && unzip -o -q Emberkeeper.zip -d s
+      - run: bash s/Emberkeeper/ci-build.sh
+      - uses: actions/upload-artifact@v4
+        with:
+          name: Emberkeeper-mod
+          path: s/Emberkeeper/out/Emberkeeper-mod.zip
